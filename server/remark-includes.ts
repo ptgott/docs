@@ -32,6 +32,10 @@ const includeRegexpBase = "\\(!([^!]+)!\\)`?";
 const includeRegexp = new RegExp(includeRegexpBase);
 const exactIncludeRegexp = new RegExp(`^${includeRegexpBase}$`);
 const globalIncludeRegexp = new RegExp(includeRegexpBase, "g");
+const relativeLinkRegexp = new RegExp(
+  "\\[[^\\[\\]]+\\]\\(\\.\\.?[^\\(\\)]+\\)",
+  "gm"
+);
 
 interface ResolveIncludesProps {
   value: string;
@@ -50,7 +54,16 @@ const resolveIncludes = ({
     const fullImportPath = join(rootDir, includePath);
 
     if (existsSync(fullImportPath)) {
-      return readFileSync(fullImportPath, "utf-8");
+      const text = readFileSync(fullImportPath, "utf-8");
+      const relativeLinks = text.match(relativeLinkRegexp);
+      if (relativeLinks !== null) {
+        console.log("relativeLinks:", relativeLinks);
+        error = `Relative links found when including ${includePath}: ${relativeLinks.join(
+          ", "
+        )}.`;
+        return text;
+      }
+      return text;
     } else {
       error = `Wrong import path ${includePath} in file ${filePath}.`;
 

@@ -70,6 +70,29 @@ Suite("Returns correct warnings on lint", () => {
   assert.equal(errors, expectedErrors);
 });
 
+Suite(
+  "Returns correct warnings when linting invalid links in a partial",
+  () => {
+    const value = "(!partial-with-invalid-links.mdx!)";
+
+    const result = transformer(
+      {
+        value,
+        path: "/content/4.0/docs/pages/filename.mdx",
+      },
+      { lint: true, resolve: false }
+    );
+
+    const errors = result.messages.map(({ message }) => message);
+
+    const expectedErrors = [
+      "Relative links found when including partial-with-invalid-links.mdx: [relative URL](./include-string.mdx), [relative URL](../includes/include-string.mdx).",
+    ];
+
+    assert.equal(errors, expectedErrors);
+  }
+);
+
 Suite("Leave includes in place on { resolve: false }", () => {
   const value = readFileSync(
     resolve("server/fixtures/includes-source.mdx"),
