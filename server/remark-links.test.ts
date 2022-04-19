@@ -59,6 +59,25 @@ Suite("Correctly resolves root paths", () => {
   assert.equal(result, "[Some link](/workflow/)\n");
 });
 
+Suite("Correctly handles /pages/ path segments", () => {
+  const result1 = transformer({
+    value: "[Some link](/docs/pages/getting-started/linux-server.mdx)",
+    path: "/docs/enterprize.md",
+  });
+
+  assert.equal(result1, "[Some link](/docs/getting-started/linux-server/)\n");
+
+  const result2 = transformer({
+    value: "[Some link](https://example.com/pages/example-page)",
+    path: "/docs/enterprize.md",
+  });
+
+  assert.equal(
+    result2,
+    "[Some link](https://example.com/pages/example-page)\n"
+  );
+});
+
 Suite("Correctly resolves links with hashes", () => {
   const result = transformer({
     value: "[Some link](workflow.mdx#anchor)",
