@@ -86,7 +86,7 @@ Suite(
     const errors = result.messages.map(({ message }) => message);
 
     const expectedErrors = [
-      "Relative links found when including partial-with-invalid-links.mdx: [relative URL](./include-string.mdx), [relative URL](../includes/include-string.mdx).",
+      "Relative links to MDX files found when including partial-with-invalid-links.mdx: [relative URL](./include-string.mdx), [relative URL](../includes/include-string.mdx), [relative URL](include-string.mdx). You must use absolute paths from server/fixtures/includes/ instead.",
     ];
 
     assert.equal(errors, expectedErrors);

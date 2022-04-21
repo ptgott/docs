@@ -32,8 +32,8 @@ const includeRegexpBase = "\\(!([^!]+)!\\)`?";
 const includeRegexp = new RegExp(includeRegexpBase);
 const exactIncludeRegexp = new RegExp(`^${includeRegexpBase}$`);
 const globalIncludeRegexp = new RegExp(includeRegexpBase, "g");
-const relativeLinkRegexp = new RegExp(
-  "\\[[^\\[\\]]+\\]\\(\\.\\.?[^\\(\\)]+\\)",
+const relativeMDXLinkRegexp = new RegExp(
+  "\\[[^\\[\\]]+\\]\\([^\\/][^\\(\\)]+\\.mdx\\)",
   "gm"
 );
 
@@ -55,12 +55,11 @@ const resolveIncludes = ({
 
     if (existsSync(fullImportPath)) {
       const text = readFileSync(fullImportPath, "utf-8");
-      const relativeLinks = text.match(relativeLinkRegexp);
+      const relativeLinks = text.match(relativeMDXLinkRegexp);
       if (relativeLinks !== null) {
-        console.log("relativeLinks:", relativeLinks);
-        error = `Relative links found when including ${includePath}: ${relativeLinks.join(
+        error = `Relative links to MDX files found when including ${includePath}: ${relativeLinks.join(
           ", "
-        )}.`;
+        )}. You must use absolute paths from ${rootDir} instead.`;
         return text;
       }
       return text;
