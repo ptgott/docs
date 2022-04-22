@@ -85,11 +85,17 @@ Suite(
 
     const errors = result.messages.map(({ message }) => message);
 
-    const expectedErrors = [
-      "Relative links to MDX files found when including partial-with-invalid-links.mdx: [relative URL](./include-string.mdx), [relative URL](../includes/include-string.mdx), [relative URL](include-string.mdx). You must use absolute paths from server/fixtures/includes/ instead.",
+    const expectedMessages = [
+      "Relative links to MDX files found when including partial-with-invalid-links.mdx:",
+      "[relative URL](./include-string.mdx)",
+      "[relative URL](../includes/include-string.mdx)",
+      "[relative URL](include-string.mdx).",
+      "Relative paths have unexpected results depending on where the partial is included.",
     ];
 
-    assert.equal(errors, expectedErrors);
+    expectedMessages.forEach((m) => {
+      assert.match(errors[0], m);
+    });
   }
 );
 

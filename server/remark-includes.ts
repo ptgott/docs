@@ -59,7 +59,7 @@ const resolveIncludes = ({
       if (relativeLinks !== null) {
         error = `Relative links to MDX files found when including ${includePath}: ${relativeLinks.join(
           ", "
-        )}. You must use absolute paths from ${rootDir} instead.`;
+        )}. Relative paths have unexpected results depending on where the partial is included.`;
         return text;
       }
       return text;
