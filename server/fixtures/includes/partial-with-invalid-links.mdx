@@ -1,5 +1,18 @@
+This link has an [absolute URL](/server/fixtures/includes/include-string.mdx).
+
 This link has a [relative URL](./include-string.mdx).
 
 This link has a [relative URL](../includes/include-string.mdx).
 
 This link has a [relative URL](include-string.mdx).
+
+Here is a link reference a [relative URL][rel1].
+
+Here is a link reference a [relative URL][rel3].
+
+Here is a link reference a [relative URL][rel2].
+
+[rel1]: ./include-string.mdx
+[rel2]: ../include-string.mdx
+
+[rel3]: include-string.mdx "Optional Title"

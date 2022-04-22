@@ -32,10 +32,17 @@ const includeRegexpBase = "\\(!([^!]+)!\\)`?";
 const includeRegexp = new RegExp(includeRegexpBase);
 const exactIncludeRegexp = new RegExp(`^${includeRegexpBase}$`);
 const globalIncludeRegexp = new RegExp(includeRegexpBase, "g");
+
+// Matches a Markdown link or link reference with a relative path to a Markdown
+// file. Example matches:
+// "[relative URL](./include-string.mdx)"
+// "[rel2]: ../include-string.mdx"
 const relativeMDXLinkRegexp = new RegExp(
-  "\\[[^\\[\\]]+\\]\\([^\\/][^\\(\\)]+\\.mdx\\)",
+  "\\[[^\\[\\]]+\\]\\([^\\/][^\\(\\)]+\\.mdx\\)|\\[[^\\[\\]]+\\]:\\s+[^\\/].*\\.mdx",
   "gm"
 );
+
+console.log(relativeMDXLinkRegexp);
 
 interface ResolveIncludesProps {
   value: string;

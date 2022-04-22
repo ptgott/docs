@@ -85,11 +85,16 @@ Suite(
 
     const errors = result.messages.map(({ message }) => message);
 
+    console.log(errors);
+
     const expectedMessages = [
       "Relative links to MDX files found when including partial-with-invalid-links.mdx:",
       "[relative URL](./include-string.mdx)",
       "[relative URL](../includes/include-string.mdx)",
-      "[relative URL](include-string.mdx).",
+      "[relative URL](include-string.mdx)",
+      "[rel1]: ./include-string.mdx",
+      "[rel2]: ../include-string.mdx",
+      "[rel3]: include-string.mdx",
       "Relative paths have unexpected results depending on where the partial is included.",
     ];
 
